@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEZA ZANZIBAR | Nutrition Information</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        /* Sticky Navigation Bar */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo i {
+            font-size: 1.8rem;
+            color: #f6e05e;
+        }
+
+        .nav-logo h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            color: #764ba2;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .nutrition-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nutrition-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-header i {
+            font-size: 2rem;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-body h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .card-body h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .card-body ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-body li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-body li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body li i {
+            color: #667eea;
+            min-width: 25px;
+            font-size: 1.1rem;
+        }
+
+        .macronutrients .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .micronutrients .card-header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .hydration .card-header {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+
+        .healthy-eating .card-header {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+
+        .meal-plan .card-header {
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+        }
+
+        .superfoods .card-header {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .food-pyramid {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            padding: 30px;
+        }
+
+        .pyramid-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #764ba2;
+            font-size: 1.8rem;
+        }
+
+        .pyramid-levels {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .level {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .level-icon {
+            font-size: 1.8rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .level-content h4 {
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .level-content p {
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .level-1 { background: rgba(102, 126, 234, 0.1); }
+        .level-2 { background: rgba(72, 187, 120, 0.1); }
+        .level-3 { background: rgba(247, 220, 111, 0.1); }
+        .level-4 { background: rgba(251, 146, 60, 0.1); }
+        .level-5 { background: rgba(244, 114, 182, 0.1); }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.05rem;
+            z-index: 1000;
+        }
+
+        .footer span {
+            color: #f6e05e;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .sticky-nav {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .nav-links {
+                margin-top: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            body {
+                padding-top: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Navigation Bar -->
+    <div class="sticky-nav">
+        <div class="nav-logo">
+            <i class="fas fa-heartbeat"></i>
+            <img src="lg.png" alt="NeoCalorie Logo" class="logo">
+            <h1>FEZA ZANZIBAR SMART NUTRITION</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="index.html"><i class="fas fa-calculator"></i> BMI Calculator</a>
+            <a class="active"><i class="fas fa-utensils"></i> Nutrition</a>
+            <a href="fitness.html"><i class="fas fa-running"></i> Fitness</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Nutrition Fundamentals</h1>
+            <p>Discover the building blocks of a healthy diet and learn how to make informed choices about what you eat. Good nutrition is essential for maintaining a healthy weight, preventing chronic diseases, and promoting overall well-being.</p>
+        </div>
+        
+        <div class="nutrition-grid">
+            <!-- Macronutrients Card -->
+            <div class="nutrition-card macronutrients">
+                <div class="card-header">
+                    <i class="fas fa-apple-alt"></i>
+                    <h2>Macronutrients</h2>
+                </div>
+                <div class="card-body">
+                    <h3>The Body's Fuel Sources</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> <strong>Carbohydrates:</strong> 45-65% of daily calories (whole grains, fruits, vegetables)</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Proteins:</strong> 10-35% of daily calories (lean meats, fish, legumes, dairy)</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Fats:</strong> 20-35% of daily calories (avocados, nuts, olive oil, fish)</li>
+                        <li><i class="fas fa-check-circle"></i> Focus on complex carbs over simple sugars</li>
+                        <li><i class="fas fa-check-circle"></i> Choose unsaturated fats over saturated and trans fats</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Micronutrients Card -->
+            <div class="nutrition-card micronutrients">
+                <div class="card-header">
+                    <i class="fas fa-pills"></i>
+                    <h2>Micronutrients</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Vitamins & Minerals</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> <strong>Vitamin A:</strong> Vision and immune health (carrots, sweet potatoes)</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Vitamin C:</strong> Immunity and collagen (citrus fruits, peppers)</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Calcium:</strong> Bone health (dairy, leafy greens)</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Iron:</strong> Oxygen transport (red meat, spinach, legumes)</li>
+                        <li><i class="fas fa-check-circle"></i> <strong>Vitamin D:</strong> Bone health and immunity (sunlight, fatty fish)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Hydration Card -->
+            <div class="nutrition-card hydration">
+                <div class="card-header">
+                    <i class="fas fa-tint"></i>
+                    <h2>Hydration</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Essential for Life</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Drink at least 8 glasses (2 liters) of water daily</li>
+                        <li><i class="fas fa-check-circle"></i> Increase intake during exercise or hot weather</li>
+                        <li><i class="fas fa-check-circle"></i> Water-rich foods: cucumbers, watermelon, oranges</li>
+                        <li><i class="fas fa-check-circle"></i> Signs of dehydration: thirst, dark urine, fatigue</li>
+                        <li><i class="fas fa-check-circle"></i> Limit sugary drinks and excessive caffeine</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Healthy Eating Card -->
+            <div class="nutrition-card healthy-eating">
+                <div class="card-header">
+                    <i class="fas fa-leaf"></i>
+                    <h2>Healthy Eating Tips</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Practical Guidelines</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Eat a rainbow of fruits and vegetables daily</li>
+                        <li><i class="fas fa-check-circle"></i> Choose whole grains over refined carbohydrates</li>
+                        <li><i class="fas fa-check-circle"></i> Practice mindful eating and portion control</li>
+                        <li><i class="fas fa-check-circle"></i> Limit processed foods and added sugars</li>
+                        <li><i class="fas fa-check-circle"></i> Cook at home more often to control ingredients</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Meal Plan Card -->
+            <div class="nutrition-card meal-plan">
+                <div class="card-header">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h2>Sample Meal Plan</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Balanced Daily Eating</h3>
+                    <ul>
+                        <li><i class="fas fa-sun"></i> <strong>Breakfast:</strong> Oatmeal with berries and nuts</li>
+                        <li><i class="fas fa-apple-alt"></i> <strong>Snack:</strong> Greek yogurt with apple slices</li>
+                        <li><i class="fas fa-utensils"></i> <strong>Lunch:</strong> Grilled chicken salad with olive oil dressing</li>
+                        <li><i class="fas fa-seedling"></i> <strong>Snack:</strong> Hummus with carrot sticks</li>
+                        <li><i class="fas fa-moon"></i> <strong>Dinner:</strong> Baked salmon with quinoa and steamed broccoli</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Superfoods Card -->
+            <div class="nutrition-card superfoods">
+                <div class="card-header">
+                    <i class="fas fa-star"></i>
+                    <h2>Superfoods</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Nutrient Powerhouses</h3>
+                    <ul>
+                        <li><i class="fas fa-seedling"></i> <strong>Berries:</strong> Antioxidants and fiber</li>
+                        <li><i class="fas fa-fish"></i> <strong>Fatty Fish:</strong> Omega-3 fatty acids</li>
+                        <li><i class="fas fa-leaf"></i> <strong>Leafy Greens:</strong> Vitamins A, C, K, and minerals</li>
+                        <li><i class="fas fa-seedling"></i> <strong>Nuts and Seeds:</strong> Healthy fats and protein</li>
+                        <li><i class="fas fa-mortar-pestle"></i> <strong>Turmeric:</strong> Anti-inflammatory properties</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Food Pyramid Section -->
+        <div class="food-pyramid">
+            <h2 class="pyramid-title">Modern Food Pyramid</h2>
+            <div class="pyramid-levels">
+                <div class="level level-1">
+                    <div class="level-icon">🚶‍♂️</div>
+                    <div class="level-content">
+                        <h4>Daily Exercise</h4>
+                        <p>At least 30 minutes of moderate activity daily to maintain health and weight</p>
+                    </div>
+                </div>
+                
+                <div class="level level-2">
+                    <div class="level-icon">🍎</div>
+                    <div class="level-content">
+                        <h4>Fruits & Vegetables</h4>
+                        <p>5-9 servings daily - focus on variety and color for maximum nutrients</p>
+                    </div>
+                </div>
+                
+                <div class="level level-3">
+                    <div class="level-icon">🌾</div>
+                    <div class="level-content">
+                        <h4>Whole Grains</h4>
+                        <p>6-8 servings daily - choose whole wheat, oats, brown rice, quinoa</p>
+                    </div>
+                </div>
+                
+                <div class="level level-4">
+                    <div class="level-icon">🥛</div>
+                    <div class="level-content">
+                        <h4>Protein & Dairy</h4>
+                        <p>2-3 servings each - lean meats, fish, eggs, legumes, milk, yogurt, cheese</p>
+                    </div>
+                </div>
+                
+                <div class="level level-5">
+                    <div class="level-icon">🧈</div>
+                    <div class="level-content">
+                        <h4>Fats & Sweets</h4>
+                        <p>Use sparingly - choose healthy fats like olive oil, limit added sugars</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Made with ❤️ by <span>Mr Mshana</span> and ICS Club students
+    </div>
+</body>
+</html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Calculator | Calorie Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 100px; /* Added for navbar space */
+        }
+        
+        /* Navigation Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #2c3e50, #4a6491);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+            color: #fdbb2d;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-links li a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links li a.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fdbb2d;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .app-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #fdbb2d;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+        
+        .input-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-right: 1px solid #eee;
+        }
+        
+        .result-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #fdbb2d;
+            font-size: 1.5rem;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .input-with-unit {
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-with-unit input {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .input-with-unit input:focus {
+            border-color: #4a6491;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(74, 100, 145, 0.2);
+        }
+        
+        .unit {
+            background: #4a6491;
+            color: white;
+            padding: 0 15px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            border-radius: 0 8px 8px 0;
+            margin-left: -2px;
+            font-weight: 600;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(90deg, #fdbb2d, #f46b45);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(244, 107, 69, 0.4);
+        }
+        
+        .calculate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            flex: 1;
+            min-width: 120px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .calories .card-value {
+            color: #e74c3c;
+        }
+        
+        .protein .card-value {
+            color: #3498db;
+        }
+        
+        .carbs .card-value {
+            color: #2ecc71;
+        }
+        
+        .fat .card-value {
+            color: #f39c12;
+        }
+        
+        .history {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 200px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
+        
+        .history-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .history-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .clear-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .clear-btn:hover {
+            text-decoration: underline;
+        }
+        
+        .formula {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+            font-size: 0.95rem;
+        }
+        
+        .formula h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .formula p {
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .formula .highlight {
+            background: #fff9c4;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .input-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            /* Responsive navbar */
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: linear-gradient(90deg, #2c3e50, #4a6491);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: clip-path 0.4s ease;
+            }
+            
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .nav-links li a {
+                display: block;
+                width: 200px;
+                text-align: center;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            body {
+                padding-top: 80px;
+            }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        footer a {
+            color: #fdbb2d;
+            text-decoration: none;
+        }
+        
+        /* Animation for result cards */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card {
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <img src="logo.png" alt="NeoCalorie Logo" class="logo">
+            <span>HealthTools</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="calCalcu.html">Calories  Calculator</a></li>
+            <li><a href="calCalcu.html" class="active">Nutrition Calculator</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>Nutrition Calculator</h1>
+            <p>Calculate calories and macronutrients for your meals</p>
+            <div class="app-icon">
+                <i class="fas fa-apple-alt"></i>
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="input-section">
+                <h2 class="section-title">Enter Nutrition Values</h2>
+                
+                <div class="input-group">
+                    <label for="protein">Protein</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="protein" placeholder="Enter grams" min="0" step="0.1">
+                        <div class="unit">g</div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="carbs">Carbohydrates</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="carbs" placeholder="Enter grams" min="0" step="0.1">
+                        <div class="unit">g</div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="fat">Fat</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="fat" placeholder="Enter grams" min="0" step="0.1">
+                        <div class="unit">g</div>
+                    </div>
+                </div>
+                
+                <button id="calculate" class="calculate-btn">
+                    <i class="fas fa-calculator"></i> Calculate Calories
+                </button>
+                
+                <div class="formula">
+                    <h3>How Calories are Calculated</h3>
+                    <p>The calorie content is determined using the Atwater system:</p>
+                    <p>• <span class="highlight">Protein</span>: 4 calories per gram</p>
+                    <p>• <span class="highlight">Carbohydrates</span>: 4 calories per gram</p>
+                    <p>• <span class="highlight">Fat</span>: 9 calories per gram</p>
+                    <p>Total Calories = (Protein × 4) + (Carbs × 4) + (Fat × 9)</p>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h2 class="section-title">Nutrition Results</h2>
+                
+                <div class="result-cards">
+                    <div class="card calories">
+                        <div class="card-title">Total Calories</div>
+                        <div class="card-value">0</div>
+                    </div>
+                    <div class="card protein">
+                        <div class="card-title">Protein</div>
+                        <div class="card-value">0g</div>
+                    </div>
+                    <div class="card carbs">
+                        <div class="card-title">Carbs</div>
+                        <div class="card-value">0g</div>
+                    </div>
+                    <div class="card fat">
+                        <div class="card-title">Fat</div>
+                        <div class="card-value">0g</div>
+                    </div>
+                </div>
+                
+                <div class="history-container">
+                    <div class="history-title">
+                        <h3>Calculation History</h3>
+                        <button id="clearHistory" class="clear-btn">Clear All</button>
+                    </div>
+                    <div class="history" id="history">
+                        <div class="history-empty">No calculations yet</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Nutrition Calculator &copy; 2025 | Made with <i class="fas fa-heart" style="color:#e74c3c"></i> by Mr Mshana and ICT CLUB Feza Schools Zanzibar</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const proteinInput = document.getElementById('protein');
+            const carbsInput = document.getElementById('carbs');
+            const fatInput = document.getElementById('fat');
+            const calculateBtn = document.getElementById('calculate');
+            const clearHistoryBtn = document.getElementById('clearHistory');
+            const caloriesCard = document.querySelector('.calories .card-value');
+            const proteinCard = document.querySelector('.protein .card-value');
+            const carbsCard = document.querySelector('.carbs .card-value');
+            const fatCard = document.querySelector('.fat .card-value');
+            const historyContainer = document.getElementById('history');
+            
+            // Hamburger menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                }
+            });
+            
+            let history = JSON.parse(localStorage.getItem('calorieHistory')) || [];
+            
+            // Load history if it exists
+            updateHistoryDisplay();
+            
+            calculateBtn.addEventListener('click', calculateCalories);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            // Allow Enter key to trigger calculation
+            [proteinInput, carbsInput, fatInput].forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        calculateCalories();
+                    }
+                });
+            });
+            
+            function calculateCalories() {
+                const protein = parseFloat(proteinInput.value) || 0;
+                const carbs = parseFloat(carbsInput.value) || 0;
+                const fat = parseFloat(fatInput.value) || 0;
+                
+                if (protein === 0 && carbs === 0 && fat === 0) {
+                    alert('Please enter values for at least one nutrient');
+                    return;
+                }
+                
+                // Calculate calories
+                const calories = (protein * 4) + (carbs * 4) + (fat * 9);
+                
+                // Update result cards
+                caloriesCard.textContent = Math.round(calories);
+                proteinCard.textContent = protein + 'g';
+                carbsCard.textContent = carbs + 'g';
+                fatCard.textContent = fat + 'g';
+                
+                // Add to history
+                const historyItem = {
+                    protein,
+                    carbs,
+                    fat,
+                    calories,
+                    timestamp: new Date().toLocaleString()
+                };
+                
+                history.unshift(historyItem);
+                if (history.length > 5) {
+                    history.pop();
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('calorieHistory', JSON.stringify(history));
+                
+                // Update history display
+                updateHistoryDisplay();
+                
+                // Animate the cards
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.animation = 'none';
+                    setTimeout(() => {
+                        card.style.animation = 'fadeIn 0.5s ease-out forwards';
+                    }, 10);
+                });
+            }
+            
+            function updateHistoryDisplay() {
+                if (history.length === 0) {
+                    historyContainer.innerHTML = '<div class="history-empty">No calculations yet</div>';
+                    return;
+                }
+                
+                historyContainer.innerHTML = '';
+                
+                history.forEach(item => {
+                    const historyElement = document.createElement('div');
+                    historyElement.className = 'history-item';
+                    historyElement.innerHTML = `
+                        <div>${item.timestamp}</div>
+                        <div><strong>${Math.round(item.calories)}</strong> cal</div>
+                    `;
+                    historyContainer.appendChild(historyElement);
+                });
+            }
+            
+            function clearHistory() {
+                history = [];
+                localStorage.removeItem('calorieHistory');
+                updateHistoryDisplay();
+            }
+        });
+    </script>
+</body>
+</html>

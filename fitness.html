@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEZA ZANZIBAR | Fitness Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-top: 100px;
+            padding-bottom: 80px;
+        }
+
+        /* Sticky Navigation Bar */
+        .sticky-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo i {
+            font-size: 1.8rem;
+            color: #f6e05e;
+        }
+
+        .nav-logo h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 1200px;
+            overflow: hidden;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            color: #764ba2;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .fitness-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .fitness-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fitness-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-header i {
+            font-size: 2rem;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .card-body h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .card-body ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-body li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-body li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body li i {
+            color: #667eea;
+            min-width: 25px;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .card-footer {
+            padding: 15px 25px;
+            background: #f8fafc;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .cardio .card-header {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+        }
+
+        .strength .card-header {
+            background: linear-gradient(135deg, #f6ad55 0%, #ed8936 100%);
+        }
+
+        .flexibility .card-header {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .balance .card-header {
+            background: linear-gradient(135deg, #0bc5ea 0%, #00a3c4 100%);
+        }
+
+        .workout-plans .card-header {
+            background: linear-gradient(135deg, #9f7aea 0%, #805ad5 100%);
+        }
+
+        .tracking .card-header {
+            background: linear-gradient(135deg, #ed64a6 0%, #d53f8c 100%);
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            padding: 30px;
+        }
+
+        .progress-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #764ba2;
+            font-size: 1.8rem;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .progress-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+        }
+
+        .progress-card h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .progress-card p {
+            color: #4a5568;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .progress-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .motivational-quote {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .quote-author {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.05rem;
+            z-index: 1000;
+        }
+
+        .footer span {
+            color: #f6e05e;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .sticky-nav {
+                flex-direction: column;
+                padding: 10px;
+            }
+            
+            .nav-links {
+                margin-top: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            body {
+                padding-top: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Navigation Bar -->
+    <div class="sticky-nav">
+        <div class="nav-logo">
+            <img src="lg.png" alt="NeoCalorie Logo" class="logo">
+            <i class="fas fa-heartbeat"></i>
+            <h1>FEZA ZANZIBAR FITNESS CENTER</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="calCalcu.html"><i class="fas fa-calculator"></i> Calories Calculator</a>
+            <a href="nutrition.html"><i class="fas fa-utensils"></i> Nutrition</a>
+            <a class="active"><i class="fas fa-running"></i> Fitness</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Fitness & Exercise</h1>
+            <p>Discover effective workout routines, fitness tips, and progress tracking tools. Regular physical activity is essential for maintaining a healthy weight, improving cardiovascular health, and boosting mental well-being.</p>
+        </div>
+        
+        <div class="fitness-grid">
+            <!-- Cardio Card -->
+            <div class="fitness-card cardio">
+                <div class="card-header">
+                    <i class="fas fa-heartbeat"></i>
+                    <h2>Cardio Training</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Heart Health & Endurance</h3>
+                    <ul>
+                        <li><i class="fas fa-running"></i> <strong>Running/Jogging:</strong> 20-30 min, 3-5x/week</li>
+                        <li><i class="fas fa-bicycle"></i> <strong>Cycling:</strong> Low impact, great for joints</li>
+                        <li><i class="fas fa-swimmer"></i> <strong>Swimming:</strong> Full-body workout, 30-45 min</li>
+                        <li><i class="fas fa-walking"></i> <strong>Brisk Walking:</strong> 10,000 steps daily goal</li>
+                        <li><i class="fas fa-fire"></i> <strong>HIIT:</strong> High Intensity Interval Training</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn">Cardio Plans</a>
+                </div>
+            </div>
+            
+            <!-- Strength Card -->
+            <div class="fitness-card strength">
+                <div class="card-header">
+                    <i class="fas fa-dumbbell"></i>
+                    <h2>Strength Training</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Build Muscle & Strength</h3>
+                    <ul>
+                        <li><i class="fas fa-weight-hanging"></i> <strong>Weight Lifting:</strong> 3-4 sets of 8-12 reps</li>
+                        <li><i class="fas fa-hands-helping"></i> <strong>Bodyweight Exercises:</strong> Push-ups, squats, planks</li>
+                        <li><i class="fas fa-ring"></i> <strong>Resistance Bands:</strong> Portable strength training</li>
+                        <li><i class="fas fa-stopwatch"></i> <strong>Frequency:</strong> 2-3 non-consecutive days/week</li>
+                        <li><i class="fas fa-sync-alt"></i> <strong>Progressive Overload:</strong> Gradually increase intensity</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn">Strength Plans</a>
+                </div>
+            </div>
+            
+            <!-- Flexibility Card -->
+            <div class="fitness-card flexibility">
+                <div class="card-header">
+                    <i class="fas fa-spa"></i>
+                    <h2>Flexibility & Mobility</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Improve Range of Motion</h3>
+                    <ul>
+                        <li><i class="fas fa-wind"></i> <strong>Yoga:</strong> Enhances flexibility and balance</li>
+                        <li><i class="fas fa-tasks"></i> <strong>Stretching Routine:</strong> Daily 10-15 min sessions</li>
+                        <li><i class="fas fa-water"></i> <strong>Pilates:</strong> Core strength and flexibility</li>
+                        <li><i class="fas fa-clock"></i> <strong>Timing:</strong> Best after workouts when muscles are warm</li>
+                        <li><i class="fas fa-lungs"></i> <strong>Breathing:</strong> Deep breathing during stretches</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn">Flexibility Plans</a>
+                </div>
+            </div>
+            
+            <!-- Balance Card -->
+            <div class="fitness-card balance">
+                <div class="card-header">
+                    <i class="fas fa-balance-scale"></i>
+                    <h2>Balance Training</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Improve Stability & Coordination</h3>
+                    <ul>
+                        <li><i class="fas fa-tree"></i> <strong>Single-leg Stance:</strong> 30 seconds each leg</li>
+                        <li><i class="fas fa-shoe-prints"></i> <strong>Heel-to-Toe Walk:</strong> 10-15 steps each way</li>
+                        <li><i class="fas fa-circle"></i> <strong>Tai Chi:</strong> Gentle movements for balance</li>
+                        <li><i class="fas fa-cubes"></i> <strong>Bosu Ball Exercises:</strong> Unstable surface training</li>
+                        <li><i class="fas fa-hands"></i> <strong>Yoga Poses:</strong> Tree pose, warrior III</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn">Balance Plans</a>
+                </div>
+            </div>
+            
+            <!-- Workout Plans Card -->
+            <div class="fitness-card workout-plans">
+                <div class="card-header">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h2>Workout Plans</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Tailored Exercise Programs</h3>
+                    <ul>
+                        <li><i class="fas fa-user"></i> <strong>Beginner:</strong> 20-30 min, 3 days/week full body</li>
+                        <li><i class="fas fa-user-friends"></i> <strong>Intermediate:</strong> 4 days/week split routine</li>
+                        <li><i class="fas fa-user-graduate"></i> <strong>Advanced:</strong> 5-6 days/week specialized training</li>
+                        <li><i class="fas fa-weight"></i> <strong>Weight Loss:</strong> Cardio + strength combination</li>
+                        <li><i class="fas fa-mountain"></i> <strong>Muscle Building:</strong> Progressive resistance training</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn">View Plans</a>
+                </div>
+            </div>
+            
+            <!-- Tracking Card -->
+            <div class="fitness-card tracking">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Progress Tracking</h2>
+                </div>
+                <div class="card-body">
+                    <h3>Monitor Your Fitness Journey</h3>
+                    <ul>
+                        <li><i class="fas fa-ruler"></i> <strong>Measurements:</strong> Track body changes weekly</li>
+                        <li><i class="fas fa-book"></i> <strong>Workout Log:</strong> Record exercises and progress</li>
+                        <li><i class="fas fa-heart"></i> <strong>Heart Rate:</strong> Monitor resting and active rates</li>
+                        <li><i class="fas fa-trophy"></i> <strong>Goals:</strong> Set SMART fitness objectives</li>
+                        <li><i class="fas fa-mobile-alt"></i> <strong>Apps:</strong> Use fitness trackers for monitoring</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn">Track Progress</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h2 class="progress-title">Fitness Progress Tracker</h2>
+            <div class="progress-grid">
+                <div class="progress-card">
+                    <h4>Weekly Workouts</h4>
+                    <p>Target: 5 sessions/week</p>
+                    <div class="progress-value">3/5</div>
+                    <a href="#" class="btn">Log Workout</a>
+                </div>
+                
+                <div class="progress-card">
+                    <h4>Daily Steps</h4>
+                    <p>Target: 10,000 steps</p>
+                    <div class="progress-value">7,845</div>
+                    <a href="#" class="btn">Sync Device</a>
+                </div>
+                
+                <div class="progress-card">
+                    <h4>Water Intake</h4>
+                    <p>Target: 2 liters/day</p>
+                    <div class="progress-value">1.5L</div>
+                    <a href="#" class="btn">Add Intake</a>
+                </div>
+                
+                <div class="progress-card">
+                    <h4>Resting Heart Rate</h4>
+                    <p>Healthy range: 60-100 bpm</p>
+                    <div class="progress-value">68 bpm</div>
+                    <a href="#" class="btn">Measure Now</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Motivational Quote -->
+        <div class="motivational-quote">
+            <p class="quote-text">"The only bad workout is the one that didn't happen."</p>
+            <p class="quote-author">- Unknown</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Made with ❤️ by <span>Mr Mshana</span> and ICS Club students
+    </div>
+</body>
+</html>
