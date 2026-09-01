@@ -780,6 +780,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
         display: flex;
     }
 
+    /* Hide the nav by default */
     .header__nav {
         position: absolute;
         top: 100%;
@@ -790,19 +791,22 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
         -webkit-backdrop-filter: blur(15px);
         border-bottom: 1px solid var(--color-border);
         padding: 1rem 1.5rem;
-        transform: translateY(-120%);
-        transition: transform 0.3s ease;
+        display: none;          /* Completely hidden */
         z-index: 999;
     }
 
+    /* Show when the .active class is added by JavaScript */
     .header__nav.active {
-        transform: translateY(0);
+        display: block;         /* Or display: flex; if you want column layout */
     }
 
     .header__nav-list {
         flex-direction: column;
         gap: 1rem;
     }
+
+    /* Other existing mobile rules... */
+}
 
     .tools__grid {
         grid-template-columns: 1fr;
