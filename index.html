@@ -1,244 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Msolwa SMART BMI CAL</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    
- 
+    <title>BodyLytics — Understand Your Body, Transform Your Health</title>
+    <meta name="description" content="Advanced body analysis tools for health, fitness, and nutrition tracking.">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styleland.css">
+
 </head>
 <body>
-    <!-- Sticky Navigation Bar -->
-    <div class="sticky-nav">
-        <div class="nav-logo">
-            <i class="fas fa-heartbeat"></i>
-            <div class="logo-container">
-            <img src="logo.png" alt="NeoCalorie Logo" class="logo">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header class="header" id="header" role="banner">
+        <div class="header__inner container">
+            <a href="index.html" class="header__logo" aria-label="BodyLytics home">
+                <span ><img src="logo.png" width="80px" height="90"></span>
+                <span class="header__logo-text">St.Gaspare Bertoni<span class="header__logo-accent">Health System</span></span>
                 
-            <!-- Placeholder for logo (since we don't hd logo) -->
-            <!-- <div class="logo-placeholder">
-                2 F E Z A<br>
-                <span style="font-size: 1.2rem; letter-spacing: 1px;">SCHOOLS</span>
-            </div> -->
-        </div>
-            <h1>St.Gaspare Bertoni SMART BMI</h1>
-        </div>
-        <div class="nav-links">
-            <a href="#"><i class="fas fa-home"></i> Home</a>
-            <a href="calCalcu.html"><i class="fas fa-calculator"></i> Calculator</a>
-            <a href="Nutrition.html"><i class="fas fa-utensils"></i> Nutrition</a>
-            <a href="fitness.html"><i class="fas fa-running"></i> Fitness</a>
-            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
-        </div>
-    </div>
-    
-    <div class="container">
-        <div class="header">
-            <!-- <h1>FEZA</h1>
-            <h2>SMART BMI CALCULATOR</h2> -->
-        </div>
-        
-        <div class="content">
-            <div class="calculator-section">
-                <div class="input-group">
-                    <label for="age"><i class="fas fa-user"></i> Age</label>
-                    <input type="number" id="age" placeholder="Enter your age" min="1" max="120">
-                </div>
+            </a>
 
-                <div class="input-group">
-                    <label for="weight"><i class="fas fa-weight-scale"></i> Weight (kg)</label>
-                    <input type="number" id="weight" placeholder="Enter weight" step="0.1">
-                </div>
+            <nav class="header__nav" id="primary-nav" role="navigation" aria-label="Primary navigation">
+                <ul class="header__nav-list">
+                    <li><a href="index.html" class="header__nav-link header__nav-link--active" aria-current="page">Home</a></li>
+                    <li><a href="dev.html" class="header__nav-link">Dev</a></li>
+                    <li><a href="about.html" class="header__nav-link">About</a></li>
+                </ul>
+            </nav>
 
-                <div class="input-group">
-                    <label><i class="fas fa-ruler"></i> Height</label>
-                    <div class="unit-toggle">
-                        <div class="unit-btn active" onclick="toggleUnit('cm')"><i class="fas fa-ruler"></i> CM</div>
-                        <div class="unit-btn" onclick="toggleUnit('ft')"><i class="fas fa-ruler-combined"></i> Feet/Inches</div>
-                    </div>
-                </div>
-
-                <div class="input-group" id="cmGroup">
-                    <input type="number" id="cm" placeholder="Height in centimeters" step="0.1">
-                </div>
-
-                <div class="input-group" id="ftGroup" style="display: none;">
-                    <div class="height-inputs">
-                        <input type="number" id="ft" placeholder="Feet" step="1">
-                        <input type="number" id="in" placeholder="Inches" step="1">
-                    </div>
-                </div>
-
-                <button class="calculate-btn" onclick="calculateBMI()">
-                    <i class="fas fa-calculator"></i> Calculate BMI
+            <div class="header__actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Switch to light theme" aria-pressed="false">
+                    <span class="theme-toggle__icon" aria-hidden="true"></span>
+                </button>
+                <button class="header__hamburger" id="hamburger-btn" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+                    <span class="header__hamburger-bar" aria-hidden="true"></span>
+                    <span class="header__hamburger-bar" aria-hidden="true"></span>
+                    <span class="header__hamburger-bar" aria-hidden="true"></span>
                 </button>
             </div>
+        </div>
+    </header>
 
-            <div class="result-section">
-                <div class="bmi-visual">
-                    <div class="bmi-needle" id="bmiNeedle"></div>
-                    <div class="bmi-text" id="bmiText">-</div>
-                </div>
-                <div class="bmi-category" id="category">-</div>
-                
-                <div class="category-tags">
-                    <div class="category-tag underweight-tag">Underweight &lt;18.5</div>
-                    <div class="category-tag normal-tag">Normal 18.5-24.9</div>
-                    <div class="category-tag overweight-tag">Overweight 25-29.9</div>
-                    <div class="category-tag obesity-tag">Obesity 30+</div>
-                </div>
-                
-                <div class="bmi-description" id="description">Enter your details to calculate BMI</div>
-                
-                <div class="diet-suggestions" id="dietSuggestions" style="display: none;">
-                    <h3><i class="fas fa-utensils"></i> Diet & Health Suggestions</h3>
-                    <ul class="diet-list" id="dietList"></ul>
+    <main id="main-content" role="main">
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero__bg" aria-hidden="true">
+                <div class="hero__orb hero__orb--1"></div>
+                <div class="hero__orb hero__orb--2"></div>
+                <div class="hero__orb hero__orb--3"></div>
+                <div class="hero__grid-pattern"></div>
+            </div>
+            <div class="hero__content container">
+                <span class="hero__badge" data-animate>Body Analysis Suite</span>
+                <h1 class="hero__title" id="hero-heading" data-animate>
+                    Understand Your <span class="hero__title-gradient">Body</span>,<br>
+                    Transform Your <span class="hero__title-gradient hero__title-gradient--alt">Health</span>
+                </h1>
+                <p class="hero__subtitle" data-animate>
+                    Advanced body composition analysis tools engineered to help you track, measure,
+                    and optimize every aspect of your fitness journey with precision and clarity.
+                </p>
+                <div class="hero__cta" data-animate>
+                    <a href="#tools" class="hero__cta-btn hero__cta-btn--primary">
+                        Explore Tools
+                        <span class="hero__cta-arrow" aria-hidden="true">→</span>
+                    </a>
+                    <a href="about.html" class="hero__cta-btn hero__cta-btn--ghost">Learn More</a>
                 </div>
             </div>
+            <div class="hero__scroll-indicator" aria-hidden="true" data-animate>
+                <span class="hero__scroll-line"></span>
+            </div>
+        </section>
+
+        <section class="tools" id="tools" aria-labelledby="tools-heading">
+            <div class="container">
+                <div class="tools__header" data-animate>
+                    <span class="tools__eyebrow">Choose Your Analysis</span>
+                    <h2 class="tools__title" id="tools-heading">Precision Tools for Every Goal</h2>
+                    <p class="tools__subtitle">Select a module below to access powerful calculations and insights tailored to your body.</p>
+                </div>
+
+                <div class="tools__grid">
+                    <a href="fat.html" class="tool-card tool-card--teal" data-animate data-tool="body-fat" aria-label="Body Fat Calculator — Measure your body fat percentage">
+                        <div class="tool-card__inner">
+                            <div class="tool-card__top">
+                                <span class="tool-card__number">01</span>
+                                <span class="tool-card__accent-line" aria-hidden="true"></span>
+                            </div>
+                            <h3 class="tool-card__title">Body Fat</h3>
+                            <p class="tool-card__description">Measure your body fat percentage with clinically validated formulas for accurate body composition insights.</p>
+                            <span class="tool-card__cta">Calculate Now <span class="tool-card__cta-arrow" aria-hidden="true">→</span></span>
+                        </div>
+                    </a>
+
+                    <a href="bmi.html" class="tool-card tool-card--blue" data-animate data-tool="bmi" aria-label="BMI Calculator — Calculate your Body Mass Index">
+                        <div class="tool-card__inner">
+                            <div class="tool-card__top">
+                                <span class="tool-card__number">02</span>
+                                <span class="tool-card__accent-line" aria-hidden="true"></span>
+                            </div>
+                            <h3 class="tool-card__title">BMI</h3>
+                            <p class="tool-card__description">Calculate your Body Mass Index to understand where you stand on the health spectrum and set realistic targets.</p>
+                            <span class="tool-card__cta">Calculate Now <span class="tool-card__cta-arrow" aria-hidden="true">→</span></span>
+                        </div>
+                    </a>
+
+                    <a href="nutrition.html" class="tool-card tool-card--green" data-animate data-tool="nutrition" aria-label="Nutrition Tracker — Track your daily nutrition intake">
+                        <div class="tool-card__inner">
+                            <div class="tool-card__top">
+                                <span class="tool-card__number">03</span>
+                                <span class="tool-card__accent-line" aria-hidden="true"></span>
+                            </div>
+                            <h3 class="tool-card__title">Nutrition</h3>
+                            <p class="tool-card__description">Track macronutrients, micronutrients, and daily intake patterns to fuel your body with precision and purpose.</p>
+                            <span class="tool-card__cta">Explore Now <span class="tool-card__cta-arrow" aria-hidden="true">→</span></span>
+                        </div>
+                    </a>
+
+                    <a href="calCalcu.html" class="tool-card tool-card--coral" data-animate data-tool="cal-cal" aria-label="Calorie Calculator — Calculate your daily calorie needs">
+                        <div class="tool-card__inner">
+                            <div class="tool-card__top">
+                                <span class="tool-card__number">04</span>
+                                <span class="tool-card__accent-line" aria-hidden="true"></span>
+                            </div>
+                            <h3 class="tool-card__title">Cal Cal</h3>
+                            <p class="tool-card__description">Determine your daily caloric requirements based on your metabolism, activity level, and fitness objectives.</p>
+                            <span class="tool-card__cta">Calculate Now <span class="tool-card__cta-arrow" aria-hidden="true">→</span></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" aria-labelledby="features-heading">
+            <div class="container">
+                <div class="features__header" data-animate>
+                    <span class="features__eyebrow">Why BodyLytics</span>
+                    <h2 class="features__title" id="features-heading">Data-Driven Health Intelligence</h2>
+                </div>
+                <div class="features__grid">
+                    <div class="feature" data-animate>
+                        <div class="feature__icon" aria-hidden="true"></div>
+                        <h3 class="feature__title">Evidence-Based</h3>
+                        <p class="feature__text">All calculations use peer-reviewed formulas and established clinical standards for trustworthy results.</p>
+                    </div>
+                    <div class="feature" data-animate>
+                        <div class="feature__icon feature__icon--alt" aria-hidden="true"></div>
+                        <h3 class="feature__title">Privacy First</h3>
+                        <p class="feature__text">Your data stays on your device. No tracking, no servers, no compromises on your personal information.</p>
+                    </div>
+                    <div class="feature" data-animate>
+                        <div class="feature__icon feature__icon--accent" aria-hidden="true"></div>
+                        <h3 class="feature__title">Always Accessible</h3>
+                        <p class="feature__text">Built with progressive enhancement — fast, lightweight, and available whenever you need it.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="container footer__inner">
+            <div class="footer__brand">
+                <a href="index.html" class="footer__logo" aria-label="BodyLytics home">
+                    <span class="footer__logo-text">Body<span class="footer__logo-accent">Lytics</span></span>
+                </a>
+                <p class="footer__description">Advanced body analysis tools for health, fitness, and nutrition tracking. Precision insights for a healthier you.</p>
+            </div>
+            <nav class="footer__nav" aria-label="Footer navigation">
+                <ul class="footer__nav-list">
+                    <li><a href="index.html" class="footer__nav-link">Home</a></li>
+                    <li><a href="dev.html" class="footer__nav-link">Dev</a></li>
+                    <li><a href="about.html" class="footer__nav-link">About</a></li>
+                    <li><a href="body-fat.html" class="footer__nav-link">Body Fat</a></li>
+                    <li><a href="bmi.html" class="footer__nav-link">BMI</a></li>
+                    <li><a href="nutrition.html" class="footer__nav-link">Nutrition</a></li>
+                    <li><a href="cal-cal.html" class="footer__nav-link">Cal Cal</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
-    
-    <div class="footer">
-        Made with ❤️ by <span>Mr Mshana</span> and ICS Club students
-    </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <p class="footer__copyright">&copy; 2025 BodyLytics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
-    <script>
-        const dietData = {
-            underweight: {
-                tips: [
-                    { emoji: '🍳', text: 'Nutrient-dense meals every 2-3 hours' },
-                    { emoji: '🥑', text: 'Add healthy fats (nuts, seeds, avocado)' },
-                    { emoji: '🥛', text: 'High-protein snacks between meals' },
-                    { emoji: '🏋️', text: 'Strength training 3x/week' },
-                    { emoji: '🥤', text: 'Smoothies with nut butter & oats' }
-                ],
-                note: { emoji: '🎯', text: 'Goal: Gain 0.5-1kg/week' }
-            },
-            normal: {
-                tips: [
-                    { emoji: '🥦', text: '5+ vegetable servings daily' },
-                    { emoji: '🐟', text: 'Omega-3 foods 2x/week' },
-                    { emoji: '💧', text: '2L water daily' },
-                    { emoji: '🚴', text: '150min exercise/week' },
-                    { emoji: '🌙', text: '7-9 hours sleep/night' }
-                ],
-                note: { emoji: '⏳', text: 'Maintain body composition' }
-            },
-            overweight: {
-                tips: [
-                    { emoji: '🥗', text: 'High-volume, low-calorie meals' },
-                    { emoji: '🍗', text: 'Lean protein with every meal' },
-                    { emoji: '🚫', text: 'Limit processed foods' },
-                    { emoji: '🏃', text: '30min cardio daily' },
-                    { emoji: '🍎', text: 'Fiber-rich snacks' }
-                ],
-                note: { emoji: '🎯', text: 'Aim for 1-2kg loss/month' }
-            },
-            obesity: {
-                tips: [
-                    { emoji: '🥕', text: 'Half plate non-starchy veggies' },
-                    { emoji: '🚫', text: 'No sugary drinks' },
-                    { emoji: '🚶', text: '10,000 steps/day' },
-                    { emoji: '⏰', text: 'Consistent meal times' },
-                    { emoji: '📝', text: 'Food journaling' }
-                ],
-                note: { emoji: '⚠️', text: 'Consult nutrition professional' }
-            }
-        };
-
-        function toggleUnit(unit) {
-            document.querySelectorAll('.unit-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('cmGroup').style.display = unit === 'cm' ? 'block' : 'none';
-            document.getElementById('ftGroup').style.display = unit === 'ft' ? 'block' : 'none';
-        }
-
-        function calculateBMI() {
-            const weight = parseFloat(document.getElementById('weight').value);
-            const age = parseInt(document.getElementById('age').value);
-            const unit = document.querySelector('.unit-btn.active').textContent.includes('CM') ? 'cm' : 'ft';
-            let height;
-
-            if (unit === 'cm') {
-                height = (parseFloat(document.getElementById('cm').value) || 0) / 100;
-            } else {
-                const feet = parseFloat(document.getElementById('ft').value) || 0;
-                const inches = parseFloat(document.getElementById('in').value) || 0;
-                height = (feet * 12 + inches) * 0.0254;
-            }
-
-            if (!weight || !height || !age || weight <= 0 || height <= 0 || age <= 0) {
-                alert('Please enter valid values');
-                return;
-            }
-
-            const bmi = weight / (height ** 2);
-            showResults(bmi, age);
-        }
-
-        function showResults(bmi, age) {
-            const needle = document.getElementById('bmiNeedle');
-            const bmiText = document.getElementById('bmiText');
-            const categoryEl = document.getElementById('category');
-            const descEl = document.getElementById('description');
-            const dietList = document.getElementById('dietList');
-            const dietSection = document.getElementById('dietSuggestions');
-
-            // Update visual
-            needle.style.transform = `rotate(${Math.min(Math.max((bmi - 15) * 7.2, 0), 180)}deg)`;
-            bmiText.textContent = bmi.toFixed(1);
-
-            // Determine category
-            let category, color;
-            if (bmi < 18.5) {
-                category = 'Underweight';
-                color = '#48bb78';
-            } else if (bmi < 25) {
-                category = 'Normal';
-                color = '#38a169';
-            } else if (bmi < 30) {
-                category = 'Overweight';
-                color = '#f6e05e';
-            } else {
-                category = 'Obesity';
-                color = '#f56565';
-            }
-
-            // Update displays
-            categoryEl.textContent = category;
-            categoryEl.style.color = color;
-            needle.style.backgroundColor = color;
-            dietSection.style.display = 'block';
-
-            // Generate description
-            let advice = '';
-            if (age < 18) {
-                advice = `Note: For ${age} years old, BMI should be compared to age-growth charts.`;
-            } else if (age > 65) {
-                advice = `Note: For seniors, consider muscle mass and bone density.`;
-            } else {
-                advice = `Healthy BMI range for adults: 18.5 - 24.9`;
-            }
-            descEl.textContent = advice;
-
-            // Show diet tips with emojis
-            const categoryKey = category.toLowerCase();
-            dietList.innerHTML = dietData[categoryKey].tips
-                .map(tip => `
-                    <li>
-                        <span class="emoji">${tip.emoji}</span>
-                        <span>${tip.text}</span>
-                    </li>
-                `)
-                .join('') + `
-                <li style="color: ${color};">
-                    <span class="emoji">${dietData[categoryKey].note.emoji}</span>
-                    <span>${dietData[categoryKey].note.text}</span>
-                </li>
-            `;
-        }
-    </script>
+    <script src="scriptland.js"></script>
 </body>
-</html>
+</html>     

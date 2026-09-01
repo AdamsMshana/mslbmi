@@ -1,0 +1,266 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BodyFit Calculator — Body Fat Percentage Estimator</title>
+    <link rel="stylesheet" href="css/stylefat.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="logo">
+                <img src="logo.png" width="90px" height="110px" alt="">
+                <h1>BodyFat percentage Calculator</h1>
+            </div>
+            <p class="tagline">Accurate body fat estimation using the U.S. Navy method</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Brief Explanation -->
+        <section class="intro-section" aria-label="About the calculator">
+            <p>
+                Enter your age, sex, and body measurements in centimeters. This calculator uses the
+                <strong>U.S. Navy body fat estimation formula</strong> — a widely used method that estimates
+                body fat percentage from simple circumference measurements. No special equipment needed.
+            </p>
+        </section>
+
+        <!-- Form + Results Grid -->
+        <div class="calculator-grid">
+            <!-- Form Card -->
+            <section class="card form-card" aria-label="Measurement form">
+                <h2>Enter Your Measurements</h2>
+
+                <form id="bodyFatForm" novalidate>
+                    <!-- Age -->
+                    <div class="form-group">
+                        <label for="age">Age <span class="unit">(years)</span></label>
+                        <input type="number" id="age" name="age" inputmode="numeric" min="10" max="100" step="1" placeholder="e.g., 28" required aria-describedby="age-hint age-error">
+                        <p class="input-hint" id="age-hint">Enter your age in years (10–100).</p>
+                        <p class="error-message" id="age-error" role="alert" aria-live="polite"></p>
+                    </div>
+
+                    <!-- Sex / Gender -->
+                    <div class="form-group">
+                        <label>Sex / Gender</label>
+                        <div class="segmented-control" role="radiogroup" aria-label="Select sex">
+                            <button type="button" class="segment-btn active" data-gender="male" role="radio" aria-checked="true" aria-label="Male" tabindex="0">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
+                                    <path d="M14 21 L14 14 L10 12 L6 14 L6 21" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" />
+                                    <path d="M19 5 L14 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    <path d="M19 5 L16 5 M19 5 L19 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                </svg>
+                                Male
+                            </button>
+                            <button type="button" class="segment-btn" data-gender="female" role="radio" aria-checked="false" aria-label="Female" tabindex="0">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="2" fill="none" />
+                                    <path d="M14 21 L14 14 L10 12 L6 14 L6 21" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" />
+                                    <path d="M19 5 L14 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    <path d="M19 5 L16 5 M19 5 L19 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    <circle cx="17" cy="13" r="0.5" fill="currentColor" />
+                                </svg>
+                                Female
+                            </button>
+                        </div>
+                        <p class="error-message" id="gender-error" role="alert" aria-live="polite"></p>
+                    </div>
+
+                    <!-- Height -->
+                    <div class="form-group">
+                        <label for="height">Height <span class="unit">(cm)</span></label>
+                        <input type="number" id="height" name="height" inputmode="decimal" min="100" max="250" step="0.1" placeholder="e.g., 175" required aria-describedby="height-hint height-error">
+                        <p class="input-hint" id="height-hint">Measure without shoes, standing upright against a wall.</p>
+                        <p class="error-message" id="height-error" role="alert" aria-live="polite"></p>
+                    </div>
+
+                    <!-- Neck -->
+                    <div class="form-group">
+                        <label for="neck">Neck Circumference <span class="unit">(cm)</span></label>
+                        <input type="number" id="neck" name="neck" inputmode="decimal" min="20" max="80" step="0.1" placeholder="e.g., 38" required aria-describedby="neck-hint neck-error">
+                        <p class="input-hint" id="neck-hint">Measure around the neck below the larynx (Adam's apple), tape level.</p>
+                        <p class="error-message" id="neck-error" role="alert" aria-live="polite"></p>
+                    </div>
+
+                    <!-- Waist -->
+                    <div class="form-group">
+                        <label for="waist">Waist Circumference <span class="unit">(cm)</span></label>
+                        <input type="number" id="waist" name="waist" inputmode="decimal" min="40" max="200" step="0.1" placeholder="e.g., 85" required aria-describedby="waist-hint waist-error">
+                        <p class="input-hint" id="waist-hint">Measure around the abdomen at the navel level. Keep the tape level — do not compress the skin.</p>
+                        <p class="error-message" id="waist-error" role="alert" aria-live="polite"></p>
+                    </div>
+
+                    <!-- Hip (Female only) -->
+                    <div class="form-group" id="hip-field" hidden>
+                        <label for="hip">Hip Circumference <span class="unit">(cm)</span></label>
+                        <input type="number" id="hip" name="hip" inputmode="decimal" min="50" max="250" step="0.1" placeholder="e.g., 95" aria-describedby="hip-hint hip-error">
+                        <p class="input-hint" id="hip-hint">Measure around the widest part of the hips and buttocks.</p>
+                        <p class="error-message" id="hip-error" role="alert" aria-live="polite"></p>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="button-row">
+                        <button type="submit" class="btn btn-primary" id="calculateBtn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M4 7 L20 7 L17 20 L7 20 Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round" />
+                                <path d="M8 7 L8 4 L16 4 L16 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            Calculate Body Fat %
+                        </button>
+                        <button type="reset" class="btn btn-secondary" id="resetBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M3 12 A9 9 0 1 0 12 3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" />
+                                <path d="M3 4 L3 10 L9 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Card -->
+            <section class="card results-card" id="resultsCard" aria-label="Results" hidden>
+                <h2>Your Results</h2>
+
+                <!-- Gauge -->
+                <div class="gauge-container" aria-hidden="true">
+                    <svg viewBox="0 0 240 150" class="gauge-svg" id="gaugeSvg">
+                        <!-- Background arc -->
+                        <path d="M 30 120 A 90 90 0 0 1 210 120"
+                        fill="none" stroke="#e9ecef" stroke-width="18" stroke-linecap="round" />
+                        <!-- Progress arc (animated via JS) -->
+                        <path id="gaugeProgress"
+                        d="M 30 120 A 90 90 0 0 1 210 120"
+                        fill="none" stroke="#2ecc71" stroke-width="18" stroke-linecap="round"
+                        stroke-dasharray="282.74" stroke-dashoffset="282.74"
+                        style="transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease;" />
+                        <!-- Tick marks -->
+                        <g class="gauge-ticks">
+                            <line x1="30" y1="128" x2="30" y2="136" stroke="#adb5bd" stroke-width="1.5" />
+                            <line x1="75" y1="80" x2="68" y2="86" stroke="#adb5bd" stroke-width="1.5" />
+                            <line x1="120" y1="70" x2="120" y2="78" stroke="#adb5bd" stroke-width="1.5" />
+                            <line x1="165" y1="80" x2="172" y2="86" stroke="#adb5bd" stroke-width="1.5" />
+                            <line x1="210" y1="128" x2="210" y2="136" stroke="#adb5bd" stroke-width="1.5" />
+                        </g>
+                        <!-- Tick labels -->
+                        <g class="gauge-labels" font-size="8" fill="#6c757d" text-anchor="middle">
+                            <text x="22" y="144">5%</text>
+                            <text x="55" y="92">10%</text>
+                            <text x="120" y="62">20%</text>
+                            <text x="185" y="92">30%</text>
+                            <text x="218" y="144">40%</text>
+                        </g>
+                    </svg>
+                    <div class="gauge-percentage" id="gaugePercentage">—</div>
+                </div>
+
+                <!-- Body Fat Percentage -->
+                <div class="result-percentage">
+                    <span class="percentage-value" id="bfpValue">—</span>
+                    <span class="percentage-symbol">%</span>
+                </div>
+
+                <!-- Category Badge -->
+                <div class="category-badge" id="categoryBadge">
+                    <span class="badge-dot" aria-hidden="true"></span>
+                    <span id="categoryText">Category</span>
+                </div>
+
+                <!-- Interpretation -->
+                <p class="interpretation" id="interpretationText">
+                    Enter your measurements to see your estimated body fat percentage and category.
+                </p>
+
+                <!-- Reset from results -->
+                <button type="button" class="btn btn-secondary btn-sm" id="resetFromResults">
+                    Clear &amp; Recalculate
+                </button>
+            </section>
+        </div>
+
+        <!-- How to Measure Section -->
+        <section class="measure-guide" aria-label="Measurement instructions">
+            <h2>How to Measure Correctly</h2>
+            <p class="guide-subtitle">Follow these guidelines for the most accurate results. Use a soft, flexible tape measure.</p>
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <div class="guide-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <rect x="16" y="4" width="8" height="32" rx="2" stroke="#2ecc71" stroke-width="2" fill="none" />
+                            <path d="M12 4 L28 4" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" />
+                            <path d="M12 36 L28 36" stroke="#2ecc71" stroke-width="2" stroke-linecap="round" />
+                            <line x1="16" y1="12" x2="24" y2="12" stroke="#2ecc71" stroke-width="1.5" stroke-linecap="round" />
+                            <line x1="16" y1="20" x2="24" y2="20" stroke="#2ecc71" stroke-width="1.5" stroke-linecap="round" />
+                            <line x1="16" y1="28" x2="24" y2="28" stroke="#2ecc71" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3>Height</h3>
+                    <p>Stand upright without shoes against a wall. Measure from the floor to the top of your head.</p>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <circle cx="20" cy="16" r="8" stroke="#2ecc71" stroke-width="2" fill="none" />
+                            <rect x="10" y="26" width="20" height="10" rx="4" stroke="#2ecc71" stroke-width="2" fill="none" />
+                            <line x1="12" y1="16" x2="28" y2="16" stroke="#2ecc71" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3" />
+                        </svg>
+                    </div>
+                    <h3>Neck</h3>
+                    <p>Measure around the neck, just below the larynx (Adam's apple). Keep the tape level and relaxed.</p>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <ellipse cx="20" cy="20" rx="10" ry="14" stroke="#2ecc71" stroke-width="2" fill="none" />
+                            <line x1="8" y1="20" x2="32" y2="20" stroke="#2ecc71" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3" />
+                            <circle cx="8" cy="20" r="2" fill="#2ecc71" />
+                            <circle cx="32" cy="20" r="2" fill="#2ecc71" />
+                        </svg>
+                    </div>
+                    <h3>Waist</h3>
+                    <p>Measure around the abdomen at the navel level. Keep the tape level and snug, but do not compress the skin.</p>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon" aria-hidden="true">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <ellipse cx="20" cy="18" rx="14" ry="10" stroke="#2ecc71" stroke-width="2" fill="none" />
+                            <ellipse cx="20" cy="20" rx="16" ry="12" stroke="#2ecc71" stroke-width="2" fill="none" />
+                            <line x1="2" y1="20" x2="38" y2="20" stroke="#2ecc71" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="3 3" />
+                        </svg>
+                    </div>
+                    <h3>Hip (Women)</h3>
+                    <p>Measure around the widest part of the hips and buttocks. Keep the tape level and parallel to the floor.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Disclaimer -->
+        <section class="disclaimer" aria-label="Disclaimer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3 L2 20 L22 20 Z" stroke="#f39c12" stroke-width="2" fill="none" stroke-linejoin="round" />
+                <path d="M12 10 L12 15" stroke="#f39c12" stroke-width="2" stroke-linecap="round" />
+                <circle cx="12" cy="17.5" r="1" fill="#f39c12" />
+            </svg>
+            <p>
+                <strong>Important:</strong> This calculator provides an <strong>estimate</strong> of body fat percentage
+                based on the U.S. Navy circumference method. Results may vary depending on measurement technique,
+                body composition, and individual factors. This tool is <strong>not a medical diagnostic device</strong>.
+                For a comprehensive health assessment, consult with a qualified healthcare professional.
+            </p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2026 BodyFit Calculator. All measurements in centimeters. U.S. Navy body fat estimation method.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Msolwa SMART BMI CAL</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+ 
+</head>
+<body>
+    <!-- Sticky Navigation Bar -->
+    <div class="sticky-nav">
+        <div class="nav-logo">
+            <i class="fas fa-heartbeat"></i>
+            <div class="logo-container">
+            <img src="logo.png" alt="NeoCalorie Logo" class="logo">
+                
+            <!-- Placeholder for logo (since we don't hd logo) -->
+            <!-- <div class="logo-placeholder">
+                2 F E Z A<br>
+                <span style="font-size: 1.2rem; letter-spacing: 1px;">SCHOOLS</span>
+            </div> -->
+        </div>
+            <h1>St.Gaspare Bertoni SMART BMI</h1>
+        </div>
+        <div class="nav-links">
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="calCalcu.html"><i class="fas fa-calculator"></i> Calculator</a>
+            <a href="Nutrition.html"><i class="fas fa-utensils"></i> Nutrition</a>
+            <a href="fitness.html"><i class="fas fa-running"></i> Fitness</a>
+            <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <!-- <h1>FEZA</h1>
+            <h2>SMART BMI CALCULATOR</h2> -->
+        </div>
+        
+        <div class="content">
+            <div class="calculator-section">
+                <div class="input-group">
+                    <label for="age"><i class="fas fa-user"></i> Age</label>
+                    <input type="number" id="age" placeholder="Enter your age" min="1" max="120">
+                </div>
+
+                <div class="input-group">
+                    <label for="weight"><i class="fas fa-weight-scale"></i> Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="Enter weight" step="0.1">
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-ruler"></i> Height</label>
+                    <div class="unit-toggle">
+                        <div class="unit-btn active" onclick="toggleUnit('cm')"><i class="fas fa-ruler"></i> CM</div>
+                        <div class="unit-btn" onclick="toggleUnit('ft')"><i class="fas fa-ruler-combined"></i> Feet/Inches</div>
+                    </div>
+                </div>
+
+                <div class="input-group" id="cmGroup">
+                    <input type="number" id="cm" placeholder="Height in centimeters" step="0.1">
+                </div>
+
+                <div class="input-group" id="ftGroup" style="display: none;">
+                    <div class="height-inputs">
+                        <input type="number" id="ft" placeholder="Feet" step="1">
+                        <input type="number" id="in" placeholder="Inches" step="1">
+                    </div>
+                </div>
+
+                <button class="calculate-btn" onclick="calculateBMI()">
+                    <i class="fas fa-calculator"></i> Calculate BMI
+                </button>
+            </div>
+
+            <div class="result-section">
+                <div class="bmi-visual">
+                    <div class="bmi-needle" id="bmiNeedle"></div>
+                    <div class="bmi-text" id="bmiText">-</div>
+                </div>
+                <div class="bmi-category" id="category">-</div>
+                
+                <div class="category-tags">
+                    <div class="category-tag underweight-tag">Underweight &lt;18.5</div>
+                    <div class="category-tag normal-tag">Normal 18.5-24.9</div>
+                    <div class="category-tag overweight-tag">Overweight 25-29.9</div>
+                    <div class="category-tag obesity-tag">Obesity 30+</div>
+                </div>
+                
+                <div class="bmi-description" id="description">Enter your details to calculate BMI</div>
+                
+                <div class="diet-suggestions" id="dietSuggestions" style="display: none;">
+                    <h3><i class="fas fa-utensils"></i> Diet & Health Suggestions</h3>
+                    <ul class="diet-list" id="dietList"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Made with ❤️ by <span>Mr Mshana</span> and ICS Club students
+    </div>
+
+    <script>
+        const dietData = {
+            underweight: {
+                tips: [
+                    { emoji: '🍳', text: 'Nutrient-dense meals every 2-3 hours' },
+                    { emoji: '🥑', text: 'Add healthy fats (nuts, seeds, avocado)' },
+                    { emoji: '🥛', text: 'High-protein snacks between meals' },
+                    { emoji: '🏋️', text: 'Strength training 3x/week' },
+                    { emoji: '🥤', text: 'Smoothies with nut butter & oats' }
+                ],
+                note: { emoji: '🎯', text: 'Goal: Gain 0.5-1kg/week' }
+            },
+            normal: {
+                tips: [
+                    { emoji: '🥦', text: '5+ vegetable servings daily' },
+                    { emoji: '🐟', text: 'Omega-3 foods 2x/week' },
+                    { emoji: '💧', text: '2L water daily' },
+                    { emoji: '🚴', text: '150min exercise/week' },
+                    { emoji: '🌙', text: '7-9 hours sleep/night' }
+                ],
+                note: { emoji: '⏳', text: 'Maintain body composition' }
+            },
+            overweight: {
+                tips: [
+                    { emoji: '🥗', text: 'High-volume, low-calorie meals' },
+                    { emoji: '🍗', text: 'Lean protein with every meal' },
+                    { emoji: '🚫', text: 'Limit processed foods' },
+                    { emoji: '🏃', text: '30min cardio daily' },
+                    { emoji: '🍎', text: 'Fiber-rich snacks' }
+                ],
+                note: { emoji: '🎯', text: 'Aim for 1-2kg loss/month' }
+            },
+            obesity: {
+                tips: [
+                    { emoji: '🥕', text: 'Half plate non-starchy veggies' },
+                    { emoji: '🚫', text: 'No sugary drinks' },
+                    { emoji: '🚶', text: '10,000 steps/day' },
+                    { emoji: '⏰', text: 'Consistent meal times' },
+                    { emoji: '📝', text: 'Food journaling' }
+                ],
+                note: { emoji: '⚠️', text: 'Consult nutrition professional' }
+            }
+        };
+
+        function toggleUnit(unit) {
+            document.querySelectorAll('.unit-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('cmGroup').style.display = unit === 'cm' ? 'block' : 'none';
+            document.getElementById('ftGroup').style.display = unit === 'ft' ? 'block' : 'none';
+        }
+
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseInt(document.getElementById('age').value);
+            const unit = document.querySelector('.unit-btn.active').textContent.includes('CM') ? 'cm' : 'ft';
+            let height;
+
+            if (unit === 'cm') {
+                height = (parseFloat(document.getElementById('cm').value) || 0) / 100;
+            } else {
+                const feet = parseFloat(document.getElementById('ft').value) || 0;
+                const inches = parseFloat(document.getElementById('in').value) || 0;
+                height = (feet * 12 + inches) * 0.0254;
+            }
+
+            if (!weight || !height || !age || weight <= 0 || height <= 0 || age <= 0) {
+                alert('Please enter valid values');
+                return;
+            }
+
+            const bmi = weight / (height ** 2);
+            showResults(bmi, age);
+        }
+
+        function showResults(bmi, age) {
+            const needle = document.getElementById('bmiNeedle');
+            const bmiText = document.getElementById('bmiText');
+            const categoryEl = document.getElementById('category');
+            const descEl = document.getElementById('description');
+            const dietList = document.getElementById('dietList');
+            const dietSection = document.getElementById('dietSuggestions');
+
+            // Update visual
+            needle.style.transform = `rotate(${Math.min(Math.max((bmi - 15) * 7.2, 0), 180)}deg)`;
+            bmiText.textContent = bmi.toFixed(1);
+
+            // Determine category
+            let category, color;
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                color = '#48bb78';
+            } else if (bmi < 25) {
+                category = 'Normal';
+                color = '#38a169';
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                color = '#f6e05e';
+            } else {
+                category = 'Obesity';
+                color = '#f56565';
+            }
+
+            // Update displays
+            categoryEl.textContent = category;
+            categoryEl.style.color = color;
+            needle.style.backgroundColor = color;
+            dietSection.style.display = 'block';
+
+            // Generate description
+            let advice = '';
+            if (age < 18) {
+                advice = `Note: For ${age} years old, BMI should be compared to age-growth charts.`;
+            } else if (age > 65) {
+                advice = `Note: For seniors, consider muscle mass and bone density.`;
+            } else {
+                advice = `Healthy BMI range for adults: 18.5 - 24.9`;
+            }
+            descEl.textContent = advice;
+
+            // Show diet tips with emojis
+            const categoryKey = category.toLowerCase();
+            dietList.innerHTML = dietData[categoryKey].tips
+                .map(tip => `
+                    <li>
+                        <span class="emoji">${tip.emoji}</span>
+                        <span>${tip.text}</span>
+                    </li>
+                `)
+                .join('') + `
+                <li style="color: ${color};">
+                    <span class="emoji">${dietData[categoryKey].note.emoji}</span>
+                    <span>${dietData[categoryKey].note.text}</span>
+                </li>
+            `;
+        }
+    </script>
+</body>
+</html>
