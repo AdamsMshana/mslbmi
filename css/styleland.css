@@ -769,6 +769,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
 }
 
 /* ========== Responsive ========== */
+/* ========== Responsive ========== */
 @media (max-width: 992px) {
     .features__grid {
         grid-template-columns: repeat(2, 1fr);
@@ -791,13 +792,13 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
         -webkit-backdrop-filter: blur(15px);
         border-bottom: 1px solid var(--color-border);
         padding: 1rem 1.5rem;
-        display: none;          /* Completely hidden */
+        display: none;
         z-index: 999;
     }
 
     /* Show when the .active class is added by JavaScript */
     .header__nav.active {
-        display: block;         /* Or display: flex; if you want column layout */
+        display: block;
     }
 
     .header__nav-list {
@@ -805,9 +806,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
         gap: 1rem;
     }
 
-    /* Other existing mobile rules... */
-}
-
+    /* ---- Move these inside the media query ---- */
     .tools__grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
@@ -830,6 +829,7 @@ button { background: none; border: none; cursor: pointer; font-family: inherit; 
         gap: 2rem;
     }
 }
+/* ---- This closing brace now correctly ends the media query ---- */
 
 @media (max-width: 480px) {
     .hero__cta {
